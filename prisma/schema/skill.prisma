@@ -1,0 +1,9 @@
+model Skill {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  category    String
+  description String?
+  createdAt   DateTime @default(now())
+
+  entrySkills EntrySkill[]
+}

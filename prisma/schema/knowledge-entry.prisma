@@ -1,0 +1,13 @@
+model KnowledgeEntry {
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  summary   String?
+  type      EntryType
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  entrySkills EntrySkill[]
+  embeddings  Embedding[]
+}

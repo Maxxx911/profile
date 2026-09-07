@@ -1,0 +1,6 @@
+enum EntryType {
+  ARTICLE
+  EXAMPLE
+  EXPLANATION
+  NOTE
+}

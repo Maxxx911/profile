@@ -1,0 +1,9 @@
+model EntrySkill {
+  entryId String
+  skillId String
+
+  entry KnowledgeEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  skill Skill          @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([entryId, skillId])
+}

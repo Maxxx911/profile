@@ -1,0 +1,12 @@
+model Embedding {
+  id         String                      @id @default(cuid())
+  entryId    String
+  chunkIndex Int
+  chunkText  String
+  embedding  Unsupported("vector(1536)")
+  createdAt  DateTime                    @default(now())
+
+  entry KnowledgeEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([entryId])
+}
