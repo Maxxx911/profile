@@ -1,0 +1,21 @@
+model JobApplication {
+  id          String            @id @default(cuid())
+  url         String
+  title       String
+  company     String
+  coverLetter String?
+  status      ApplicationStatus @default(APPLIED)
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+enum ApplicationStatus {
+  APPLIED
+  HR_SCREENING
+  TECH_INTERVIEW
+  TEAM_INTERVIEW
+  CTO_INTERVIEW
+  REJECTED
+  DONE
+}

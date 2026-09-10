@@ -1,16 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const links = [
+const PUBLIC_LINKS = [
   { href: "/", label: "About" },
   { href: "/skills", label: "Skills" },
   { href: "/knowledge", label: "Knowledge" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/");
+    router.refresh();
+  }
+
+  const links = isAuthenticated
+    ? [...PUBLIC_LINKS, { href: "/applications", label: "Applications" }]
+    : PUBLIC_LINKS;
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-zinc-200">
@@ -27,7 +38,7 @@ export default function Navbar() {
               key={href}
               href={href}
               className={`text-sm font-medium transition-colors ${
-                pathname === href
+                pathname === href || pathname.startsWith(href + "/")
                   ? "text-indigo-600"
                   : "text-zinc-500 hover:text-zinc-900"
               }`}
@@ -35,6 +46,23 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="text-sm font-medium text-zinc-400 hover:text-zinc-600 transition-colors"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className={`text-sm font-medium transition-colors ${
+                pathname === "/login" ? "text-indigo-600" : "text-zinc-500 hover:text-zinc-900"
+              }`}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </nav>
     </header>
